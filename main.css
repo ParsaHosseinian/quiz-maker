@@ -5,10 +5,11 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+
 body {
 	font-family: "Barlow", sans-serif;
 	color: rgb(65, 65, 65);
-	background-image: url("images/bg2.jpg");
+	background-image: url("images/backg1.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 100vh;
@@ -27,17 +28,25 @@ body {
 	margin: auto;
 	margin-top: 40px;
 	text-decoration: none;
+
 }
+
 #make-quiz-btn button {
 	padding: 20px 50px;
 	font-size: 18px;
 	border: none;
 	border-radius: 10px;
-	background-color: rgb(240, 249, 255);
-	color: rgb(87, 87, 87);
+	color: rgb(255, 255, 255);
 	cursor: pointer;
 	transition: background 0.3s;
+	background: rgba(255, 255, 255, 0.5);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
 }
+
 #make-quiz-btn button:hover {
 	background-color: rgb(127, 208, 255);
 }
@@ -46,7 +55,6 @@ body {
 	position: relative;
 	margin: auto;
 	margin-top: 40px;
-	background-color: white;
 	max-width: 80%;
 	border-radius: 15px;
 	display: flex;
@@ -55,7 +63,14 @@ body {
 	overflow: auto;
 	overflow-x: hidden;
 	overflow-y: auto;
+	background: rgba(255, 255, 255, 0.4);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(3.5px);
+	-webkit-backdrop-filter: blur(3.5px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
 }
+
 #quiz-list::-webkit-scrollbar {
 	width: 10px;
 }
@@ -78,7 +93,9 @@ body {
 #quiz-list h2 {
 	text-align: center;
 	margin: 15px 0 5px;
+	color: white;
 }
+
 .quiz-item {
 	background-color: rgb(239, 244, 255);
 	display: flex;
@@ -88,20 +105,31 @@ body {
 	border-radius: 10px;
 	min-height: 60px;
 	padding: 0 10px;
+
+	background: rgba(255, 255, 255, 0.5);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
 }
+
 .quiz-item:hover {
 	background-color: rgb(223, 237, 255);
 }
+
 .quiz-item div {
 	display: flex;
 	align-items: center;
 	width: 75%;
 	bacground-color: red;
 }
+
 .quiz-item div p {
 	margin-left: 10px;
 	font-weight: 500;
 }
+
 .quiz-item button {
 	padding: 12px;
 	border: none;
@@ -110,6 +138,7 @@ body {
 	color: white;
 	cursor: pointer;
 }
+
 .quiz-item-icon {
 	width: 35px;
 	float: left;
@@ -122,6 +151,7 @@ body {
 	margin: 15px;
 	color: rgb(202, 202, 202);
 }
+
 .copyright a {
 	text-decoration: none;
 
