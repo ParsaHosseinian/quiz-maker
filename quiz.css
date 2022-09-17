@@ -11,7 +11,22 @@ body {
 	color: rgb(87, 87, 87);
 	background-color: rgb(217, 235, 255);
 }
+.logout-btn{
+	position: fixed;
+	right: 20px;
+	top: 20px;
+	padding:  3px 20px;
+	cursor: pointer;
+	border: none;
+	border-radius: 7px;
+	background-color: rgb(236, 74, 74);
+	color: white;
+	
+}
+.logout-btn:hover{
+	background-color: rgb(218, 41, 41);
 
+}
 header {
 	background-image: url("images/bg2.jpg");
 	background-size: cover;

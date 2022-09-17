@@ -15,6 +15,23 @@ body {
 	height: 100vh;
 }
 
+.logout-btn{
+	position: fixed;
+	right: 20px;
+	top: 20px;
+	padding:  3px 20px;
+	cursor: pointer;
+	border: none;
+	border-radius: 7px;
+	background-color: rgb(236, 74, 74);
+	color: white;
+	
+}
+.logout-btn:hover{
+	background-color: rgb(218, 41, 41);
+
+}
+
 #title {
 	text-align: center;
 	margin-top: 40px;
@@ -97,7 +114,6 @@ body {
 }
 
 .quiz-item {
-	background-color: rgb(239, 244, 255);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -107,11 +123,6 @@ body {
 	padding: 0 10px;
 
 	background: rgba(255, 255, 255, 0.5);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-	backdrop-filter: blur(4px);
-	-webkit-backdrop-filter: blur(4px);
-	border-radius: 10px;
-	border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .quiz-item:hover {

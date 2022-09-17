@@ -1,5 +1,21 @@
 "use strict";
 
+//check if user is signed in
+
+if(JSON.parse(localStorage.getItem("username"))==null){
+	location.href = "login.html";
+}
+
+//logout button
+let logoutBtn=document.querySelector(".logout-btn");	
+let logoutBtnName=document.querySelector(".username");
+let signedidUsername=JSON.parse(localStorage.getItem("username"));
+logoutBtnName.append(signedidUsername)
+logoutBtn.addEventListener("click",()=>{
+	localStorage.removeItem("username");
+	history.go(0);
+})
+//------------
 let quizes = [];
 
 class Quiz {

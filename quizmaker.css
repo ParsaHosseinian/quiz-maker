@@ -14,7 +14,22 @@ body {
 	background-repeat: no-repeat;
 	height: 100vh;
 }
+.logout-btn{
+	position: fixed;
+	right: 20px;
+	top: 20px;
+	padding:  3px 20px;
+	cursor: pointer;
+	border: none;
+	border-radius: 7px;
+	background-color: rgb(236, 74, 74);
+	color: white;
+	
+}
+.logout-btn:hover{
+	background-color: rgb(218, 41, 41);
 
+}
 input {
 	background: rgba(0, 0, 0, 0.205);
 	border: none !important;
