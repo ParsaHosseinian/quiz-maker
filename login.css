@@ -1,0 +1,98 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	font-family: "Barlow", sans-serif;
+	color: rgb(65, 65, 65);
+	background-image: url("images/backg1.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 100vh;
+    overflow: hidden;
+}
+.login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.login-box{
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+.login-box img{
+    width: 65px;
+    align-self: center;
+    margin: 0 0 10px 0;
+
+}
+.login-box h3{
+    text-align: center;
+    margin-bottom: 15px;
+}
+#username {
+    height: 30px;
+    border:  solid 1px rgb(192, 192, 192);
+    border-radius: 10px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+#username:hover{
+    background-color: rgb(218, 246, 255);
+}
+#password {
+    height: 30px;
+    border:  solid 1px rgb(192, 192, 192);
+    border-radius: 10px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+
+}
+#password:hover{
+    background-color: rgb(218, 246, 255);
+}
+
+.labeldiv{
+    display: flex;
+    align-items: center;
+}
+.labeldiv img{
+    width: 15px ;
+    padding-top: 10px ;
+    margin-right: 5px;
+ 
+}
+
+
+button{
+    padding: 7px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+#login-btn{
+    background-color: #29B6F6;
+}
+#login-btn:hover{
+    background-color: #1c9eda;
+}
+#signup-btn{
+    background-color: #0288D1;
+}
+#signup-btn:hover{
+    background-color: #0679b7;
+}
+
+h1{
+    position: fixed;
+    top: 50px;
+    color: white;
+}
