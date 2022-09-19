@@ -2,16 +2,16 @@
 
 //check if user is signed in
 
-if(JSON.parse(localStorage.getItem("username"))==null){
+if (JSON.parse(localStorage.getItem("username")) == null) {
 	location.href = "login.html";
 }
 
 //logout button
-let logoutBtn=document.querySelector(".logout-btn");	
-let logoutBtnName=document.querySelector(".username");
-let signedidUsername=JSON.parse(localStorage.getItem("username"));
+let logoutBtn = document.querySelector(".logout-btn");
+let logoutBtnName = document.querySelector(".username");
+let signedidUsername = JSON.parse(localStorage.getItem("username"));
 logoutBtnName.append(signedidUsername)
-logoutBtn.addEventListener("click",()=>{
+logoutBtn.addEventListener("click", () => {
 	localStorage.removeItem("username");
 	history.go(0);
 })
@@ -73,13 +73,11 @@ class QuizMaker {
 			description = document.querySelector("#create-quiz-description").value;
 			timeout = document.querySelector("#create-quiz-timeout").value;
 			this.createTheQuiz(quizes.length, title, description, tempCount, timeout, questions);
-			this.updateLocalStorage();
 			/* empty values for next input*/
 			document.querySelector("#create-quiz-title").value = "";
 			document.querySelector("#create-quiz-description").value = "";
 			document.querySelector("#create-quiz-timeout").value = "";
 			document.querySelector("#show-count").innerHTML = "1.";
-			alert("your Quiz Added to Quizes");
 		});
 	}
 	creatQuestions(count, id) {
@@ -111,19 +109,28 @@ class QuizMaker {
 	createTheQuiz(id, title, description, count, timeout, questions) {
 		let newQuiz = new Quiz(id, title, description, count, timeout, questions);
 		quizes.push(newQuiz);
+		let quizMakerData = {
+			id, title, description, count, timeout, questions
+		}
+		fetch('https://quiz-app-3ddff-default-rtdb.asia-southeast1.firebasedatabase.app/quizes.json', {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json'
+			},
+			body: JSON.stringify(quizMakerData)
+		})
+			.then(res => {
+				console.log(res);
+				alert("your quiz added to quizes successfully")
+			})
+			.catch(err => {
+				console.log(err);
+				alert("there is a problem to add your quiz");
+			})
+
 	}
-	updateLocalStorage() {
-		let i = 1;
-		let allQuizes = JSON.parse(localStorage.getItem("quizes"));
-		quizes.forEach((q) => {
-			allQuizes.push(q);
-		});
-		allQuizes.forEach((quiz) => {
-			quiz.id = i;
-			i++;
-		});
-		localStorage.setItem("quizes", JSON.stringify(allQuizes));
-	}
+	
 }
 
 let q = new QuizMaker();
+

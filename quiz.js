@@ -2,75 +2,90 @@
 
 //check if user is signed in
 
-if(JSON.parse(localStorage.getItem("username"))==null){
-	location.href = "login.html";
+if (JSON.parse(localStorage.getItem("username")) == null) {
+  location.href = "login.html";
 }
 
 //logout button
-let logoutBtn=document.querySelector(".logout-btn");	
-let logoutBtnName=document.querySelector(".username");
-let signedidUsername=JSON.parse(localStorage.getItem("username"));
-logoutBtnName.append(signedidUsername)
-logoutBtn.addEventListener("click",()=>{
-	localStorage.removeItem("username");
-	history.go(0);
-})
+let logoutBtn = document.querySelector(".logout-btn");
+let logoutBtnName = document.querySelector(".username");
+let signedidUsername = JSON.parse(localStorage.getItem("username"));
+logoutBtnName.append(signedidUsername);
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("username");
+  history.go(0);
+});
 //------------
-let quizes = [];
-quizes = JSON.parse(localStorage.getItem("quizes"));
 
 class TakeQuiz {
-	constructor() {
-		this.point = 0;
-		this.quizId = location.hash.slice(1);
-		this.quiz;
-		quizes.forEach((q) => {
-			if (q.id == this.quizId) this.quiz = q;
-		});
-		this.render();
-	}
-	render() {
-		let titleElem = document.querySelector("#header-quiz-title");
-		let descriptionElem = document.querySelector("#descriptoion");
-		let countElem = document.querySelector("#count-value");
-		let submitAnswersBtn = document.querySelector("#submit-adswers");
-		titleElem.innerHTML = this.quiz.title;
-		descriptionElem.innerHTML = this.quiz.description;
-		countElem.innerHTML = this.quiz.count;
-		this.timeoutMaker();
-		submitAnswersBtn.addEventListener("click", () => {
-			this.getQuizResult();
-		});
-		this.generateQuestions();
-	}
-	timeoutMaker() {
-		let timeoutElem = document.querySelector("#timer-value");
-		let timeoutMinute = +this.quiz.timeout;
-		let min = timeoutMinute - 1;
-		let sec = 59;
-		setInterval(timeoutHandler, 1000);
-		function timeoutHandler() {
-			if (sec < 0) {
-				min--;
-				sec = 59;
-				timeoutElem.innerHTML = `${min}:${sec}`;
-				sec--;
-			} else {
-				timeoutElem.innerHTML = `${min}:${sec}`;
-				sec--;
-			}
-			if (sec == 0 && min == 0) {
-				this.getQuizResult();
-				clearInterval();
-			}
-		}
-	}
-	generateQuestions() {
-		let questionsContainer = document.querySelector(".question-list");
-		this.quiz.questions.forEach((question) => {
-			questionsContainer.insertAdjacentHTML(
-				"beforeend",
-				`
+  constructor() {
+    this.point = 0;
+    this.quizId = location.hash.slice(1);
+    this.quiz;
+
+    this.render();
+  }
+  async render() {
+    //getQuizez from database
+    let quizes = [];
+    await fetch(
+      "https://quiz-app-3ddff-default-rtdb.asia-southeast1.firebasedatabase.app/quizes.json"
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        let quizesFromFirebase = Object.entries(data);
+        quizesFromFirebase.forEach((quiz) => {
+          quizes.push(quiz[1]);
+        });
+      });
+
+    quizes.forEach((q) => {
+      if (q.id == this.quizId) this.quiz = q;
+    });
+
+    let titleElem = document.querySelector("#header-quiz-title");
+    let descriptionElem = document.querySelector("#descriptoion");
+    let countElem = document.querySelector("#count-value");
+    let submitAnswersBtn = document.querySelector("#submit-adswers");
+    titleElem.innerHTML = this.quiz.title;
+    descriptionElem.innerHTML = this.quiz.description;
+    countElem.innerHTML = this.quiz.count;
+    this.timeoutMaker();
+    submitAnswersBtn.addEventListener("click", () => {
+      this.getQuizResult();
+    });
+    this.generateQuestions();
+  }
+  timeoutMaker() {
+    let timeoutElem = document.querySelector("#timer-value");
+    let timeoutMinute = +this.quiz.timeout;
+    let min = timeoutMinute - 1;
+    let sec = 59;
+
+	let thisTemp=this;
+    setInterval(timeoutHandler, 1000);
+    function timeoutHandler() {
+		if (sec == 0 && min == 0) {
+			timeoutElem.innerHTML = `${min}:${sec}`;
+			thisTemp.getQuizResult();
+			clearInterval();
+      } else if (sec < 0) {
+        min--;
+        sec = 59;
+        timeoutElem.innerHTML = `${min}:${sec}`;
+        sec--;
+      } else {
+        timeoutElem.innerHTML = `${min}:${sec}`;
+        sec--;
+      }
+    }
+  }
+  generateQuestions() {
+    let questionsContainer = document.querySelector(".question-list");
+    this.quiz.questions.forEach((question) => {
+      questionsContainer.insertAdjacentHTML(
+        "beforeend",
+        `
         <div class="question">
         <p class="question-number">${question.id}</p>
         <div>
@@ -96,57 +111,57 @@ class TakeQuiz {
         </div>
     </div>
         `
-			);
-		});
-	}
+      );
+    });
+  }
 
-	getQuizResult() {
-		let questions = document.querySelectorAll(".question-answers");
-		let correctAnswers = [];
-		let checkedAnswer = [];
+  getQuizResult() {
+    let questions = document.querySelectorAll(".question-answers");
+    let correctAnswers = [];
+    let checkedAnswer = [];
 
-		questions.forEach((question) => {
-			let inputs = question.querySelectorAll("input");
+    questions.forEach((question) => {
+      let inputs = question.querySelectorAll("input");
 
-			let isChecked = 0;
-			inputs.forEach((input) => {
-				if (input.checked) {
-					checkedAnswer.push(+input.id.slice(7));
-					isChecked = 1;
-				}
-			});
-			if (isChecked == 0) checkedAnswer.push(0);
-		});
+      let isChecked = 0;
+      inputs.forEach((input) => {
+        if (input.checked) {
+          checkedAnswer.push(+input.id.slice(7));
+          isChecked = 1;
+        }
+      });
+      if (isChecked == 0) checkedAnswer.push(0);
+    });
 
-		this.quiz.questions.forEach((question) => {
-			correctAnswers.push(+question.correct);
-		});
+    this.quiz.questions.forEach((question) => {
+      correctAnswers.push(+question.correct);
+    });
 
-		let questinsCount = this.quiz.questions.length;
-		let eachQuestionPoint = 100 / questinsCount;
+    let questinsCount = this.quiz.questions.length;
+    let eachQuestionPoint = 100 / questinsCount;
 
-		let i = 0;
-		while (i < correctAnswers.length) {
-			if (correctAnswers[i] == checkedAnswer[i]) {
-				this.point += eachQuestionPoint;
-			}
-			i++;
-		}
+    let i = 0;
+    while (i < correctAnswers.length) {
+      if (correctAnswers[i] == checkedAnswer[i]) {
+        this.point += eachQuestionPoint;
+      }
+      i++;
+    }
 
-		let questionsContainer = document.querySelector(".question-list");
-		let answerQuestionTitle = document.querySelector(".answer-the-test");
-		let timeoutElem = document.querySelector("#timer-value");
-		let submitBtn = document.querySelector("#submit-adswers");
-		let cancelBtn = document.querySelector("#cancel-quiz");
+    let questionsContainer = document.querySelector(".question-list");
+    let answerQuestionTitle = document.querySelector(".answer-the-test");
+    let timeoutElem = document.querySelector("#timer-value");
+    let submitBtn = document.querySelector("#submit-adswers");
+    let cancelBtn = document.querySelector("#cancel-quiz");
 
-		questionsContainer.innerHTML = `
+    questionsContainer.innerHTML = `
         <h2 class="answer-the-test" style="color:green; margin:100px 0">your score is: ${this.point}%</h2>      
         `;
-		answerQuestionTitle.innerHTML = "here is your result";
-		timeoutElem.style.display = "none";
-		submitBtn.style.display = "none";
-		cancelBtn.innerHTML = "Back To Home";
-	}
+    answerQuestionTitle.innerHTML = "here is your result";
+    timeoutElem.style.display = "none";
+    submitBtn.style.display = "none";
+    cancelBtn.innerHTML = "Back To Home";
+  }
 }
 
 let holdingQuiz = new TakeQuiz();
